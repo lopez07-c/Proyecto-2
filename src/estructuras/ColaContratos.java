@@ -12,6 +12,7 @@ import java.util.Queue;
  * @author matam
  */
 public class ColaContratos<T> {
+    
     private Queue<T> cola = new LinkedList<>();
 
     public void encolar(T elemento) { 
