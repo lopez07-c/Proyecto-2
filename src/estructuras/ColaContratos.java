@@ -10,6 +10,7 @@ import java.util.Queue;
 /**
  *
  * @author matam
+ * @param <T>
  */
 public class ColaContratos<T> {
     

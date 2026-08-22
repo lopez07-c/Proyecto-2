@@ -7,6 +7,7 @@ package estructuras;
 /**
  *
  * @author matam
+ * @param <T>
  */
 public interface IEstructuraDinamica <T>{
     
