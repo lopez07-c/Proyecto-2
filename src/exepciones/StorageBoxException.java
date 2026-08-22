@@ -8,9 +8,9 @@ package exepciones;
  *
  * @author matam
  */
-public class EspacioNoDisponibleException extends StorageBoxException {
+public class StorageBoxException extends Exception {
     
-    public EspacioNoDisponibleException(String numeroEspacio) {
-        super("El espacio " + numeroEspacio + " no está disponible.");
+    public StorageBoxException(String mensaje) {
+        super(mensaje);
     }
 }

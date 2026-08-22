@@ -15,6 +15,7 @@ import java.util.Map;
  * @param <V>
  */
 public class MapaEspacios<K, V> {
+    
     private Map<K, V> mapa = new HashMap<>();
 
     public void registrar(K clave, V valor) {

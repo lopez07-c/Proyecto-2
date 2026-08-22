@@ -13,6 +13,7 @@ import java.util.List;
  * @param <T>
  */
 public class ListaClientes<T> implements IEstructuraDinamica<T> {
+
     private List<T> elementos;
 
     public ListaClientes() {
@@ -20,16 +21,30 @@ public class ListaClientes<T> implements IEstructuraDinamica<T> {
     }
 
     @Override
-    public void agregar(T elemento) { 
-        elementos.add(elemento); 
+    public void agregar(T elemento) {
+        elementos.add(elemento);
     }
 
     @Override
-    public boolean eliminar(T elemento) { 
-        return elementos.remove(elemento); 
+    public boolean eliminar(T elemento) {
+        return elementos.remove(elemento);
     }
 
     @Override
+    public int getTamanio() {
+        return elementos.size();
+    }
+
+    @Override
+    public boolean estaVacia() {
+        return elementos.isEmpty();
+    }
+
+    @Override
+    public Object[] aArreglo() {
+        return elementos.toArray();
+    }
+
     public T obtener(int indice) {
         if (indice >= 0 && indice < elementos.size()) {
             return elementos.get(indice);
@@ -37,13 +52,7 @@ public class ListaClientes<T> implements IEstructuraDinamica<T> {
         return null;
     }
 
-    @Override
-    public int getTamanio() { 
-        return elementos.size(); 
-    }
-
-    @Override
-    public List<T> aLista() { 
-        return new ArrayList<>(elementos); 
+    public List<T> aLista() {
+        return new ArrayList<>(elementos);
     }
 }
