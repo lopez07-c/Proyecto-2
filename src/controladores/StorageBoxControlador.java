@@ -18,6 +18,7 @@ public class StorageBoxControlador {
     private ListaClientes<Cliente> clientes = new ListaClientes<>();
     private MapaEspacios<String, Espacio> espacios = new MapaEspacios<>();
     private ColaContratos<Contrato> contratosPendientes = new ColaContratos<>();
+    private int contadorContratos = 1;
 
     public void registrarEspacio(String numero, TipoEspacio tipo) throws StorageBoxException {
         if (numero == null || numero.trim().isEmpty()) {
@@ -45,7 +46,7 @@ public class StorageBoxControlador {
         clientes.agregar(cliente);
     }
 
-    public Contrato solicitarContrato(String idCliente, String numEspacio, LocalDate inicio) throws StorageBoxException {
+    public Contrato solicitarContrato(String idCliente, String numEspacio, LocalDate inicio, int meses) throws StorageBoxException {
         try {
             Cliente cliente = buscarCliente(idCliente);
             if (cliente == null) {
@@ -60,7 +61,10 @@ public class StorageBoxControlador {
                 throw new EspacioNoDisponibleException(numEspacio);
             }
 
-            Contrato nuevoContrato = new Contrato(cliente, espacio, inicio);
+            String codigo = "CNT-" + String.format("%03d", contadorContratos++);
+
+            Contrato nuevoContrato = new Contrato(codigo, cliente, espacio, inicio, meses);
+            
             contratosPendientes.encolar(nuevoContrato);
             return nuevoContrato;
 
