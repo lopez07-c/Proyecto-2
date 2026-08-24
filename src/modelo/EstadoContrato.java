@@ -8,6 +8,19 @@ package modelo;
  *
  * @author matam
  */
-public class EstadoContrato {
-    
+public enum EstadoContrato {
+        PENDIENTE("Pendiente"),
+        ACTIVO("Activo"),
+        FINALIZADO("Finalizado"),
+        CANCELADO("Cancelado");
+
+    private final String descripcion;
+
+    EstadoContrato(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
 }
