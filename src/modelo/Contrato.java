@@ -112,7 +112,7 @@ public class Contrato {
 
     if (estado != EstadoContrato.PENDIENTE) {
         throw new StorageBoxException(
-                "Solo se pueden activar contratos pendientes."
+                "Solo se pueden activar contratos pendientes"
         );
     }
 
@@ -124,7 +124,7 @@ public class Contrato {
 
     if (estado != EstadoContrato.ACTIVO) {
         throw new StorageBoxException(
-                "Solo se pueden finalizar contratos activos."
+                "Solo se pueden finalizar contratos activos"
         );
     }
 
@@ -136,7 +136,7 @@ public void cancelar() throws StorageBoxException {
 
     if (estado != EstadoContrato.PENDIENTE) {
         throw new StorageBoxException(
-                "Solo se pueden cancelar contratos pendientes."
+                "Solo se pueden cancelar contratos pendientes"
         );
     }
 
