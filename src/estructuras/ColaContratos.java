@@ -4,9 +4,10 @@
  */
 package estructuras;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
-
 /**
  *
  * @author matam
@@ -14,21 +15,37 @@ import java.util.Queue;
  */
 public class ColaContratos<T> {
     
-    private Queue<T> cola = new LinkedList<>();
+    private final Queue<T> cola;
 
-    public void encolar(T elemento) { 
-        cola.add(elemento); 
+    public ColaContratos() {
+        cola = new LinkedList<>();
     }
-    public T procesarSiguiente() { 
-        return cola.poll(); 
+
+    public void encolar(T elemento) {
+        cola.add(elemento);
     }
-    public T verPrimero() { 
-        return cola.peek(); 
+
+    public T procesarSiguiente() {
+        return cola.poll();
     }
-    public boolean estaVacia() { 
-        return cola.isEmpty(); 
+
+    public T verPrimero() {
+        return cola.peek();
     }
-    public int getTamanio() { 
-        return cola.size(); 
+
+    public boolean eliminar(T elemento) {
+        return cola.remove(elemento);
+    }
+
+    public boolean estaVacia() {
+        return cola.isEmpty();
+    }
+
+    public int getTamanio() {
+        return cola.size();
+    }
+
+    public List<T> aLista() {
+        return new ArrayList<>(cola);
     }
 }

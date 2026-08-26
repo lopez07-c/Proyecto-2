@@ -22,15 +22,21 @@ public enum TipoEspacio {
         this.tamanioM2 = tamanioM2;
         this.precioBase = precioBase;
     }
+
     public String getNombre() {
         return nombre;
     }
 
-    public double getTamanioM2() { 
-        return tamanioM2; 
+    public double getTamanioM2() {
+        return tamanioM2;
     }
 
-    public double getPrecioBase() { 
-        return precioBase; 
+    public double getPrecioBase() {
+        return precioBase;
+    }
+
+    @Override
+    public String toString() {
+        return nombre;
     }
 }

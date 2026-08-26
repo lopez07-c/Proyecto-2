@@ -3,32 +3,149 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package modelo;
+import exepciones.StorageBoxException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 /**
  *
  * @author matam
  */
 public class Contrato {
     
-    private String codigo;
-    private Cliente cliente;
-    private Espacio espacio;
-    private LocalDate fechaInicio;
-    private int meses;
-    private EstadoContrato estado;
+    private static int consecutivo = 1;
 
-    public Contrato(String codigo, Cliente cliente, Espacio espacio, LocalDate fechaInicio, int meses) {
-        
-    this.codigo = codigo;
-    this.cliente = cliente;
-    this.espacio = espacio;
-    this.fechaInicio = fechaInicio;
-    this.meses = meses;
-    this.estado = EstadoContrato.PENDIENTE;
+    private final int numeroContrato;
+    private final Cliente cliente;
+    private final Espacio espacio;
+    private final LocalDate fechaInicio;
+    private final LocalDate fechaFinal;
+
+    private EstadoContrato estado;
+    private final ArrayList<ServicioAdicional> servicios;
+
+    private int cantidadDias;
+    private int cantidadPeriodos;
+
+    private double subtotal;
+    private double impuestos;
+    private double total;
+
+    public Contrato(Cliente cliente, Espacio espacio,
+            LocalDate fechaInicio, LocalDate fechaFinal)
+            throws StorageBoxException {
+
+        if (cliente == null) {
+            throw new StorageBoxException("Debe seleccionar un cliente.");
+        }
+
+        if (espacio == null) {
+            throw new StorageBoxException("Debe seleccionar un espacio.");
+        }
+
+        if (fechaInicio == null || fechaFinal == null) {
+            throw new StorageBoxException("Debe indicar las fechas del contrato.");
+        }
+
+        if (fechaFinal.isBefore(fechaInicio)) {
+            throw new StorageBoxException(
+                    "La fecha final no puede ser anterior a la fecha inicial."
+            );
+        }
+
+        this.numeroContrato = consecutivo;
+        consecutivo++;
+
+        this.cliente = cliente;
+        this.espacio = espacio;
+        this.fechaInicio = fechaInicio;
+        this.fechaFinal = fechaFinal;
+
+        this.estado = EstadoContrato.PENDIENTE;
+        this.servicios = new ArrayList<>();
+
+        cantidadDias = 1;
+        LocalDate fecha = fechaInicio;
+
+        while (fecha.isBefore(fechaFinal)) {
+            fecha = fecha.plusDays(1);
+            cantidadDias++;
+        }
+
+        cantidadPeriodos = cantidadDias / 30;
+
+        if (cantidadDias % 30 != 0) {
+            cantidadPeriodos++;
+        }
+
+        calcularCostos();
     }
 
-    public String getCodigo() {
-        return codigo;
+    public void agregarServicio(ServicioAdicional servicio) {
+
+        if (servicio != null) {
+            servicios.add(servicio);
+            calcularCostos();
+        }
+    }
+
+    public void eliminarServicio(ServicioAdicional servicio) {
+
+        if (servicio != null) {
+            servicios.remove(servicio);
+            calcularCostos();
+        }
+    }
+
+    private void calcularCostos() {
+
+        total = espacio.getPrecioMensual() * cantidadPeriodos;
+
+        for (ServicioAdicional servicio : servicios) {
+            total += servicio.getPrecio();
+        }
+
+        subtotal = total;
+        impuestos = 0;
+    }
+
+    public void activar() throws StorageBoxException {
+
+    if (estado != EstadoContrato.PENDIENTE) {
+        throw new StorageBoxException(
+                "Solo se pueden activar contratos pendientes."
+        );
+    }
+
+    estado = EstadoContrato.ACTIVO;
+    espacio.setOcupado(true);
+}
+
+    public void finalizar() throws StorageBoxException {
+
+    if (estado != EstadoContrato.ACTIVO) {
+        throw new StorageBoxException(
+                "Solo se pueden finalizar contratos activos."
+        );
+    }
+
+    estado = EstadoContrato.FINALIZADO;
+    espacio.setOcupado(false);
+}
+
+public void cancelar() throws StorageBoxException {
+
+    if (estado != EstadoContrato.PENDIENTE) {
+        throw new StorageBoxException(
+                "Solo se pueden cancelar contratos pendientes."
+        );
+    }
+
+    estado = EstadoContrato.CANCELADO;
+    espacio.setOcupado(false);
+}
+
+    public int getNumeroContrato() {
+        return numeroContrato;
     }
 
     public Cliente getCliente() {
@@ -43,44 +160,36 @@ public class Contrato {
         return fechaInicio;
     }
 
-    public int getMeses() {
-        return meses;
+    public LocalDate getFechaFinal() {
+        return fechaFinal;
     }
 
     public EstadoContrato getEstado() {
         return estado;
     }
 
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+    public int getCantidadDias() {
+        return cantidadDias;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public int getCantidadPeriodos() {
+        return cantidadPeriodos;
     }
 
-    public void setEspacio(Espacio espacio) {
-        this.espacio = espacio;
+    public double getSubtotal() {
+        return subtotal;
     }
 
-    public void setFechaInicio(LocalDate fechaInicio) {
-        this.fechaInicio = fechaInicio;
+    public double getImpuestos() {
+        return impuestos;
     }
 
-    public void setMeses(int meses) {
-        this.meses = meses;
+    public double getTotal() {
+        return total;
     }
 
-    public void setEstado(EstadoContrato estado) {
-        this.estado = estado;
-    }
-
-
-    public double calcularMontoTotal() {
-        if (espacio != null) {
-            return espacio.getPrecioMensual() * meses;
-        }
-        return 0.0;
+    public ArrayList<ServicioAdicional> getServicios() {
+        return new ArrayList<>(servicios);
     }
 }
 

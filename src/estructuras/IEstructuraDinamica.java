@@ -4,16 +4,17 @@
  */
 package estructuras;
 
+import java.util.List;
+
 /**
  *
  * @author matam
  * @param <T>
  */
-public interface IEstructuraDinamica <T>{
-    
+public interface IEstructuraDinamica<T> {
     void agregar(T elemento);
     boolean eliminar(T elemento);
+    T obtener(int indice);
     int getTamanio();
-    boolean estaVacia();
-    Object[] aArreglo();
+    List<T> aLista();
 }

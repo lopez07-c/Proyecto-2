@@ -12,46 +12,53 @@ public class Espacio {
     
     private String numeroEspacio;
     private TipoEspacio tipo;
+    private double tamanioM2;
     private double precioMensual;
     private boolean ocupado;
 
     public Espacio(String numeroEspacio, TipoEspacio tipo) {
         this.numeroEspacio = numeroEspacio;
         this.tipo = tipo;
+        this.tamanioM2 = tipo.getTamanioM2();
         this.precioMensual = tipo.getPrecioBase();
         this.ocupado = false;
     }
 
-    public String getNumeroEspacio() { 
-        return numeroEspacio; 
+    public String getNumeroEspacio() {
+        return numeroEspacio;
     }
 
-    public TipoEspacio getTipo() { 
-        return tipo; 
+    public TipoEspacio getTipo() {
+        return tipo;
     }
 
-    public double getPrecioMensual() { 
-        return precioMensual; 
+    public double getTamanioM2() {
+        return tamanioM2;
     }
 
-    public boolean isOcupado() { 
-        return ocupado; 
+    public double getPrecioMensual() {
+        return precioMensual;
     }
 
-    public void setNumeroEspacio(String numeroEspacio) {
-        this.numeroEspacio = numeroEspacio;
+    public boolean isOcupado() {
+        return ocupado;
     }
 
     public void setTipo(TipoEspacio tipo) {
         this.tipo = tipo;
-        this.precioMensual = tipo.getPrecioBase(); 
+        this.tamanioM2 = tipo.getTamanioM2();
+        this.precioMensual = tipo.getPrecioBase();
+    }
+
+    public void setTamanioM2(double tamanioM2) {
+        this.tamanioM2 = tamanioM2;
     }
 
     public void setPrecioMensual(double precioMensual) {
         this.precioMensual = precioMensual;
     }
 
-    public void setOcupado(boolean ocupado) { 
-        this.ocupado = ocupado; 
+    public void setOcupado(boolean ocupado) {
+        this.ocupado = ocupado;
     }
 }

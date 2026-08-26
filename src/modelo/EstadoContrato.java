@@ -9,10 +9,10 @@ package modelo;
  * @author matam
  */
 public enum EstadoContrato {
-        PENDIENTE("Pendiente"),
-        ACTIVO("Activo"),
-        FINALIZADO("Finalizado"),
-        CANCELADO("Cancelado");
+    PENDIENTE("Pendiente"),
+    ACTIVO("Activo"),
+    FINALIZADO("Finalizado"),
+    CANCELADO("Cancelado");
 
     private final String descripcion;
 
@@ -21,6 +21,11 @@ public enum EstadoContrato {
     }
 
     public String getDescripcion() {
+        return descripcion;
+    }
+
+    @Override
+    public String toString() {
         return descripcion;
     }
 }

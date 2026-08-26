@@ -4,6 +4,7 @@
  */
 package estructuras;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,24 +17,33 @@ import java.util.Map;
  */
 public class MapaEspacios<K, V> {
     
-    private Map<K, V> mapa = new HashMap<>();
+    private final Map<K, V> mapa;
+
+    public MapaEspacios() {
+        mapa = new HashMap<>();
+    }
 
     public void registrar(K clave, V valor) {
-        mapa.put(clave, valor); 
+        mapa.put(clave, valor);
     }
-    public V buscar(K clave) { 
-        return mapa.get(clave); 
+
+    public V buscar(K clave) {
+        return mapa.get(clave);
     }
-    public boolean existe(K clave) { 
-        return mapa.containsKey(clave); 
+
+    public boolean existe(K clave) {
+        return mapa.containsKey(clave);
     }
-    public V remover(K clave) { 
-        return mapa.remove(clave); 
+
+    public V remover(K clave) {
+        return mapa.remove(clave);
     }
-    public Collection<V> obtenerTodos() { 
-        return mapa.values(); 
+
+    public Collection<V> obtenerTodos() {
+        return new ArrayList<>(mapa.values());
     }
-    public int getTamanio() { 
-        return mapa.size(); 
+
+    public int getTamanio() {
+        return mapa.size();
     }
 }
