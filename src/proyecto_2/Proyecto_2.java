@@ -4,6 +4,9 @@
  */
 package proyecto_2;
 
+import controladores.StorageBoxControlador;
+import vistas.FrmPrincipal;
+
 /**
  *
  * @author UTN
@@ -14,8 +17,9 @@ public class Proyecto_2 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here 
-        
+        StorageBoxControlador controlador = new StorageBoxControlador();
+        FrmPrincipal principal = new FrmPrincipal(controlador);
+        principal.setVisible(true);
     }
     
 }
