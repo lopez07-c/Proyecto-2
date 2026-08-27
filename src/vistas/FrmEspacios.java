@@ -86,19 +86,14 @@ public class FrmEspacios extends javax.swing.JFrame {
 }    
     private void generarMapa() {
 
-    pnlMapaMatriz.setLayout(
-            new GridLayout(4, 5, 4, 4)
-    );
+    pnlMapaMatriz.setLayout( new GridLayout(4, 5, 4, 4));
 
     pnlMapaMatriz.removeAll();
-
     Color verde = new Color(76, 175, 80);
     Color rojo = new Color(244, 67, 54);
     Color gris = Color.LIGHT_GRAY;
-
     int totalCeldas = 20;
-    int espaciosRegistrados =
-            modeloTabla.getRowCount();
+    int espaciosRegistrados =modeloTabla.getRowCount();
 
     for (int i = 0; i < totalCeldas; i++) {
 
@@ -111,17 +106,11 @@ public class FrmEspacios extends javax.swing.JFrame {
 
         if (i < espaciosRegistrados) {
 
-            String numero =
-                    modeloTabla.getValueAt(i, 0).toString();
+            String numero = modeloTabla.getValueAt(i, 0).toString();
 
-            String estado =
-                    modeloTabla.getValueAt(i, 4).toString();
+            String estado = modeloTabla.getValueAt(i, 4).toString();
 
-            texto = "Espacio: "
-                    + numero
-                    + " ("
-                    + estado
-                    + ")";
+            texto = "Espacio: "+ numero + " (" + estado + ")";
 
             if (estado.equals("Ocupado")) {
 
@@ -458,9 +447,7 @@ public class FrmEspacios extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNumeroEspacioActionPerformed
 
     private void cbxTipoEspacioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxTipoEspacioActionPerformed
-        String tipo = cbxTipoEspacio
-            .getSelectedItem()
-            .toString();
+        String tipo = cbxTipoEspacio.getSelectedItem().toString();
 
     if (tipo.equals("Pequeño")) {
 
@@ -480,43 +467,35 @@ public class FrmEspacios extends javax.swing.JFrame {
     }//GEN-LAST:event_cbxTipoEspacioActionPerformed
 
     private void btnRegistrarEspacioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarEspacioActionPerformed
-        String numero =
-            txtNumeroEspacio.getText().trim();
+        String numero = txtNumeroEspacio.getText().trim();
 
-    String tamanioTexto =
-            txtTamanio.getText().trim();
+    String tamanioTexto = txtTamanio.getText().trim();
 
-    String precioTexto =
-            txtPrecioBase.getText().trim();
+    String precioTexto = txtPrecioBase.getText().trim();
 
     if (numero.isEmpty() || tamanioTexto.isEmpty() || precioTexto.isEmpty()) {
 
-        JOptionPane.showMessageDialog(this,
-                "Debe completar todos los campos.");
+        JOptionPane.showMessageDialog(this, "Debe completar todos los campos.");
 
         return;
     }
 
     if (!numero.matches("[0-9]+")) {
 
-        JOptionPane.showMessageDialog(this,
-                "El número de espacio solo puede contener números.");
+        JOptionPane.showMessageDialog(this,"El número de espacio solo puede contener números.");
 
         return;
     }
 
     try {
 
-        double tamanio =
-                Double.parseDouble(tamanioTexto);
+        double tamanio = Double.parseDouble(tamanioTexto);
 
-        double precio =
-                Double.parseDouble(precioTexto);
+        double precio = Double.parseDouble(precioTexto);
 
         if (tamanio <= 0 || precio <= 0) {
 
-            JOptionPane.showMessageDialog(this,
-                    "El tamaño y el precio deben ser mayores a 0.");
+            JOptionPane.showMessageDialog(this,"El tamaño y el precio deben ser mayores a 0.");
 
             return;
         }
@@ -545,18 +524,15 @@ public class FrmEspacios extends javax.swing.JFrame {
         generarMapa();
         limpiarFormulario();
 
-        JOptionPane.showMessageDialog(this,
-                "Espacio registrado correctamente.");
+        JOptionPane.showMessageDialog(this,"Espacio registrado correctamente.");
 
     } catch (NumberFormatException e) {
 
-        JOptionPane.showMessageDialog(this,
-                "El tamaño y el precio deben ser números.");
+        JOptionPane.showMessageDialog(this,"El tamaño y el precio deben ser números.");
 
     } catch (StorageBoxException e) {
 
-        JOptionPane.showMessageDialog(this,
-                e.getMessage());
+        JOptionPane.showMessageDialog(this, e.getMessage());
     }
     }//GEN-LAST:event_btnRegistrarEspacioActionPerformed
 
@@ -569,42 +545,33 @@ public class FrmEspacios extends javax.swing.JFrame {
 
     if (fila == -1) {
 
-        JOptionPane.showMessageDialog(this,
-                "Seleccione un espacio para modificar.");
+        JOptionPane.showMessageDialog(this,"Seleccione un espacio para modificar.");
 
         return;
     }
 
-    String numero =
-            modeloTabla.getValueAt(fila, 0).toString();
+    String numero = modeloTabla.getValueAt(fila, 0).toString();
 
-    String tamanioTexto =
-            txtTamanio.getText().trim();
+    String tamanioTexto = txtTamanio.getText().trim();
 
-    String precioTexto =
-            txtPrecioBase.getText().trim();
+    String precioTexto = txtPrecioBase.getText().trim();
 
-    if (tamanioTexto.isEmpty()
-            || precioTexto.isEmpty()) {
+    if (tamanioTexto.isEmpty() || precioTexto.isEmpty()) {
 
-        JOptionPane.showMessageDialog(this,
-                "Debe completar todos los campos.");
+        JOptionPane.showMessageDialog(this, "Debe completar todos los campos.");
 
         return;
     }
 
     try {
 
-        double tamanio =
-                Double.parseDouble(tamanioTexto);
+        double tamanio =Double.parseDouble(tamanioTexto);
 
-        double precio =
-                Double.parseDouble(precioTexto);
+        double precio =Double.parseDouble(precioTexto);
 
         TipoEspacio tipo;
 
-        String tipoSeleccionado =
-                cbxTipoEspacio.getSelectedItem().toString();
+        String tipoSeleccionado = cbxTipoEspacio.getSelectedItem().toString();
 
         if (tipoSeleccionado.equals("Pequeño")) {
 
@@ -619,24 +586,16 @@ public class FrmEspacios extends javax.swing.JFrame {
             tipo = TipoEspacio.GRANDE;
         }
 
-        controlador.modificarEspacio(
-                numero,
-                tipo,
-                tamanio,
-                precio
-        );
+        controlador.modificarEspacio(numero,tipo,tamanio,precio);
 
         cargarTablaEspacios();
         generarMapa();
         limpiarFormulario();
-
-        JOptionPane.showMessageDialog(this,
-                "Espacio modificado correctamente.");
+        JOptionPane.showMessageDialog(this,"Espacio modificado correctamente");
 
     } catch (NumberFormatException e) {
 
-        JOptionPane.showMessageDialog(this,
-                "El tamaño y el precio deben ser números.");
+        JOptionPane.showMessageDialog(this,"El tamaño y el precio deben ser números");
 
     } catch (StorageBoxException e) {
 
@@ -648,37 +607,28 @@ public class FrmEspacios extends javax.swing.JFrame {
     private void btnEliminarEspacioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarEspacioActionPerformed
         int fila = tblEspacios.getSelectedRow();
 
-    if (fila == -1) {
+        if (fila == -1) {
 
-        JOptionPane.showMessageDialog(this,
-                "Seleccione un espacio para eliminar.");
+            JOptionPane.showMessageDialog(this,"Seleccione un espacio para eliminar");
 
         return;
     }
-
-    String numero =
-            modeloTabla.getValueAt(fila, 0).toString();
-
-    int confirmar =
-            JOptionPane.showConfirmDialog(
-                    this,
-                    "¿Está seguro de eliminar el espacio?",
-                    "Confirmar",
-                    JOptionPane.YES_NO_OPTION
-            );
+    
+    String numero =modeloTabla.getValueAt(fila, 0).toString();
+    
+    int confirmar = JOptionPane.showConfirmDialog(this, "¿Está seguro de eliminar el espacio?","Confirmar",
+            JOptionPane.YES_NO_OPTION);
 
     if (confirmar == JOptionPane.YES_OPTION) {
 
         try {
 
             controlador.eliminarEspacio(numero);
-
             cargarTablaEspacios();
             generarMapa();
             limpiarFormulario();
 
-            JOptionPane.showMessageDialog(this,
-                    "Espacio eliminado correctamente.");
+            JOptionPane.showMessageDialog(this,"Espacio eliminado correctamente.");
 
         } catch (StorageBoxException e) {
 
@@ -713,41 +663,29 @@ public class FrmEspacios extends javax.swing.JFrame {
             cbxTipoEspacio.setSelectedItem("Grande");
         }
 
-        String tamanio =
-                modeloTabla.getValueAt(fila, 2).toString();
-
+        String tamanio = modeloTabla.getValueAt(fila, 2).toString();
         tamanio = tamanio.replace(" m²", "");
-
         txtTamanio.setText(tamanio);
-
-        txtPrecioBase.setText(
-                modeloTabla.getValueAt(fila, 3).toString()
-        );
-
+        txtPrecioBase.setText(modeloTabla.getValueAt(fila, 3).toString());
         txtNumeroEspacio.setEnabled(false);
-    }
+        }
     }//GEN-LAST:event_tblEspaciosMouseClicked
 
     private void btnBuscarEspacioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarEspacioActionPerformed
         String numero = txtBuscarEspacio.getText().trim();
 
     if (numero.isEmpty()) {
-        JOptionPane.showMessageDialog(this,
-                "Ingrese el número del espacio.");
+        JOptionPane.showMessageDialog(this,"Ingrese el número del espacio.");
         return;
     }
 
     if (!numero.matches("[0-9]+")) {
-        JOptionPane.showMessageDialog(this,
-                "El número de espacio solo puede contener números.");
+        JOptionPane.showMessageDialog(this,"El número de espacio solo puede contener números.");
         return;
     }
-
     Espacio espacio = controlador.buscarEspacio(numero);
-
     if (espacio == null) {
-        JOptionPane.showMessageDialog(this,
-                "No se encontró el espacio.");
+        JOptionPane.showMessageDialog(this,"No se encontró el espacio.");
         return;
     }
 
@@ -756,29 +694,14 @@ public class FrmEspacios extends javax.swing.JFrame {
     for (int i = 0; i < modeloTabla.getRowCount(); i++) {
 
         if (modeloTabla.getValueAt(i, 0).toString().equals(numero)) {
-
             tblEspacios.setRowSelectionInterval(i, i);
-
-            txtNumeroEspacio.setText(
-                    modeloTabla.getValueAt(i, 0).toString()
-            );
-
-            String tipo =
-                    modeloTabla.getValueAt(i, 1).toString();
-
+            txtNumeroEspacio.setText( modeloTabla.getValueAt(i, 0).toString());
+            String tipo = modeloTabla.getValueAt(i, 1).toString();
             cbxTipoEspacio.setSelectedItem(tipo);
-
-            String tamanio =
-                    modeloTabla.getValueAt(i, 2).toString();
-
+            String tamanio = modeloTabla.getValueAt(i, 2).toString();
             tamanio = tamanio.replace(" m²", "");
-
             txtTamanio.setText(tamanio);
-
-            txtPrecioBase.setText(
-                    modeloTabla.getValueAt(i, 3).toString()
-            );
-
+            txtPrecioBase.setText( modeloTabla.getValueAt(i, 3).toString());
             txtNumeroEspacio.setEnabled(false);
 
             break;
@@ -791,8 +714,7 @@ public class FrmEspacios extends javax.swing.JFrame {
         return;
     }
 
-    String filtro =
-            cbxFiltroEspacio.getSelectedItem().toString();
+    String filtro = cbxFiltroEspacio.getSelectedItem().toString();
 
     modeloTabla.setRowCount(0);
 
@@ -812,28 +734,23 @@ public class FrmEspacios extends javax.swing.JFrame {
 
             mostrar = true;
 
-        } else if (filtro.equals("Pequeño")
-                && espacio.getTipo() == TipoEspacio.PEQUENO) {
+        } else if (filtro.equals("Pequeño")&& espacio.getTipo() == TipoEspacio.PEQUENO) {
 
             mostrar = true;
 
-        } else if (filtro.equals("Mediano")
-                && espacio.getTipo() == TipoEspacio.MEDIANO) {
+        } else if (filtro.equals("Mediano") && espacio.getTipo() == TipoEspacio.MEDIANO) {
 
             mostrar = true;
 
-        } else if (filtro.equals("Grande")
-                && espacio.getTipo() == TipoEspacio.GRANDE) {
+        } else if (filtro.equals("Grande")  && espacio.getTipo() == TipoEspacio.GRANDE) {
 
             mostrar = true;
 
-        } else if (filtro.equals("Disponible")
-                && !espacio.isOcupado()) {
+        } else if (filtro.equals("Disponible")&& !espacio.isOcupado()) {
 
             mostrar = true;
 
-        } else if (filtro.equals("Ocupado")
-                && espacio.isOcupado()) {
+        } else if (filtro.equals("Ocupado") && espacio.isOcupado()) {
 
             mostrar = true;
         }

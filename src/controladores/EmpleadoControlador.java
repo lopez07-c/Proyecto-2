@@ -22,102 +22,64 @@ public class EmpleadoControlador {
         this.modelo = modelo;
     }
 
-    public Empleado registrarEmpleado(
-            String identificacion,
-            String nombre,
-            String telefono,
-            PuestoEmpleado puesto)
+    public Empleado registrarEmpleado(String identificacion,String nombre,String telefono,PuestoEmpleado puesto)
             throws StorageBoxException {
 
-        if (identificacion == null
-                || identificacion.trim().isEmpty()) {
+        if (identificacion == null|| identificacion.trim().isEmpty()) {
 
-            throw new StorageBoxException(
-                    "La identificación es requerida"
-            );
+            throw new StorageBoxException("La identificación es requerida");
         }
 
-        if (nombre == null
-                || nombre.trim().isEmpty()) {
+        if (nombre == null|| nombre.trim().isEmpty()) {
 
-            throw new StorageBoxException(
-                    "El nombre es requerido"
-            );
+            throw new StorageBoxException( "El nombre es requerido");
         }
 
-        if (telefono == null
-                || telefono.trim().isEmpty()) {
+        if (telefono == null|| telefono.trim().isEmpty()) {
 
-            throw new StorageBoxException(
-                    "El teléfono es requerido"
-            );
+            throw new StorageBoxException("El teléfono es requerido");
         }
 
         if (puesto == null) {
 
-            throw new StorageBoxException(
-                    "Debe seleccionar un puesto"
-            );
+            throw new StorageBoxException("Debe seleccionar un puesto");
         }
 
         if (buscarEmpleado(identificacion) != null) {
 
-            throw new StorageBoxException(
-                    "Ya existe un empleado con esa identificación"
+            throw new StorageBoxException("Ya existe un empleado con esa identificación"
             );
         }
 
-        Empleado empleado =
-                new Empleado(
-                        identificacion.trim(),
-                        nombre.trim(),
-                        telefono.trim(),
-                        puesto
-                );
-
+        Empleado empleado =new Empleado( identificacion.trim(),nombre.trim(),telefono.trim(),puesto);
         modelo.getEmpleados().add(empleado);
 
         return empleado;
     }
 
-    public void modificarEmpleado(
-            String identificacion,
-            String nombre,
-            String telefono,
-            PuestoEmpleado puesto)
+    public void modificarEmpleado(String identificacion,String nombre, String telefono,PuestoEmpleado puesto)
             throws StorageBoxException {
 
-        Empleado empleado =
-                buscarEmpleado(identificacion);
+        Empleado empleado =buscarEmpleado(identificacion);
 
         if (empleado == null) {
 
-            throw new StorageBoxException(
-                    "El empleado no existe"
-            );
+            throw new StorageBoxException("El empleado no existe");
         }
 
-        if (nombre == null
-                || nombre.trim().isEmpty()) {
+        if (nombre == null|| nombre.trim().isEmpty()) {
 
-            throw new StorageBoxException(
-                    "El nombre es requerido"
-            );
+            throw new StorageBoxException("El nombre es requerido");
         }
 
-        if (telefono == null
-                || telefono.trim().isEmpty()) {
+        if (telefono == null|| telefono.trim().isEmpty()) {
 
-            throw new StorageBoxException(
-                    "El teléfono es requerido"
-            );
+            throw new StorageBoxException("El teléfono es requerido");
         }
 
         if (puesto == null) {
 
-            throw new StorageBoxException(
-                    "Debe seleccionar un puesto"
-            );
+            throw new StorageBoxException( "Debe seleccionar un puesto");
         }
 
         empleado.setNombre(nombre.trim());
@@ -125,36 +87,27 @@ public class EmpleadoControlador {
         empleado.setPuesto(puesto);
     }
 
-    public void eliminarEmpleado(
-            String identificacion)
-            throws StorageBoxException {
+    public void eliminarEmpleado(String identificacion)throws StorageBoxException {
 
-        Empleado empleado =
-                buscarEmpleado(identificacion);
+        Empleado empleado = buscarEmpleado(identificacion);
 
         if (empleado == null) {
 
-            throw new StorageBoxException(
-                    "El empleado no existe"
-            );
+            throw new StorageBoxException("El empleado no existe");
         }
 
         modelo.getEmpleados().remove(empleado);
     }
 
-    public Empleado buscarEmpleado(
-            String identificacion) {
+    public Empleado buscarEmpleado(String identificacion) {
 
         if (identificacion == null) {
             return null;
         }
 
-        for (Empleado empleado :
-                modelo.getEmpleados()) {
+        for (Empleado empleado : modelo.getEmpleados()) {
 
-            if (empleado.getIdentificacion()
-                    .equalsIgnoreCase(
-                            identificacion.trim())) {
+            if (empleado.getIdentificacion() .equalsIgnoreCase(identificacion.trim())) {
 
                 return empleado;
             }
@@ -183,23 +136,12 @@ public class EmpleadoControlador {
         String criterio =
                 texto.trim().toLowerCase();
 
-        for (Empleado empleado :
-                modelo.getEmpleados()) {
+        for (Empleado empleado : modelo.getEmpleados()) {
 
-            if (criterio.isEmpty()
-                    || empleado.getIdentificacion()
-                            .toLowerCase()
-                            .contains(criterio)
-                    || empleado.getNombre()
-                            .toLowerCase()
-                            .contains(criterio)
-                    || empleado.getTelefono()
-                            .toLowerCase()
-                            .contains(criterio)
-                    || empleado.getPuesto()
-                            .toString()
-                            .toLowerCase()
-                            .contains(criterio)) {
+            if (criterio.isEmpty()|| empleado.getIdentificacion().toLowerCase()
+                            .contains(criterio) || empleado.getNombre().toLowerCase().contains(criterio)
+                    || empleado.getTelefono().toLowerCase().contains(criterio)
+                    || empleado.getPuesto().toString().toLowerCase().contains(criterio)) {
 
                 resultado.add(empleado);
             }

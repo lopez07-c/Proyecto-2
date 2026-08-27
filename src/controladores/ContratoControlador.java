@@ -26,66 +26,45 @@ public class ContratoControlador {
         this.modelo = modelo;
     }
 
-    public Contrato solicitarContrato(
-            String idCliente,
-            String numEspacio,
-            LocalDate fechaInicio,
-            LocalDate fechaFinal)
+    public Contrato solicitarContrato(String idCliente,String numEspacio,LocalDate fechaInicio,LocalDate fechaFinal)
             throws StorageBoxException {
 
-        Cliente cliente =
-                buscarCliente(idCliente);
+        Cliente cliente = buscarCliente(idCliente);
 
         if (cliente == null) {
 
-            throw new StorageBoxException(
-                    "El cliente no existe");
+            throw new StorageBoxException("El cliente no existe");
         }
 
-        Espacio espacio =
-                buscarEspacio(numEspacio);
+        Espacio espacio = buscarEspacio(numEspacio);
 
         if (espacio == null) {
 
-            throw new StorageBoxException(
-                    "El espacio no existe");
+            throw new StorageBoxException("El espacio no existe");
         }
 
-        if (fechaInicio == null
-                || fechaFinal == null) {
+        if (fechaInicio == null|| fechaFinal == null) {
 
-            throw new StorageBoxException(
-                    "Debe indicar las fechas del contrato");
+            throw new StorageBoxException("Debe indicar las fechas del contrato");
         }
 
         if (!fechaFinal.isAfter(fechaInicio)) {
-
-            throw new StorageBoxException(
-                    "La fecha final debe ser posterior a la fecha inicial");
+            
+            throw new StorageBoxException("La fecha final debe ser posterior a la fecha inicial");
         }
 
-        for (Contrato contrato :
-                modelo.getContratos()) {
+        for (Contrato contrato : modelo.getContratos()) {
 
-            if (contrato.getEspacio()
-                    .getNumeroEspacio()
-                    .equalsIgnoreCase(numEspacio)) {
+            if (contrato.getEspacio().getNumeroEspacio().equalsIgnoreCase(numEspacio)) {
 
-                if (contrato.getEstado()
-                        != EstadoContrato.CANCELADO) {
+                if (contrato.getEstado()!= EstadoContrato.CANCELADO) {
 
-                    boolean hayConflicto =
-                            !fechaFinal.isBefore(
-                                    contrato.getFechaInicio())
-                            &&
-                            !fechaInicio.isAfter(
-                                    contrato.getFechaFinal());
+                    boolean hayConflicto =!fechaFinal.isBefore(contrato.getFechaInicio())&&
+                            !fechaInicio.isAfter( contrato.getFechaFinal());
 
                     if (hayConflicto) {
 
-                        throw new EspacioNoDisponibleException(
-                                numEspacio
-                        );
+                        throw new EspacioNoDisponibleException( numEspacio);
                     }
                 }
             }
@@ -134,49 +113,34 @@ public class ContratoControlador {
 
         if (contrato.getEspacio().isOcupado()) {
 
-            throw new EspacioNoDisponibleException(
-                    contrato.getEspacio()
-                            .getNumeroEspacio()
-            );
+            throw new EspacioNoDisponibleException(contrato.getEspacio().getNumeroEspacio());
         }
 
         contrato.activar();
-
-        modelo.getContratosPendientes()
-                .procesarSiguiente();
+        modelo.getContratosPendientes().procesarSiguiente();
 
         return contrato;
     }
 
-    public void finalizarContrato(
-            int numeroContrato)
-            throws StorageBoxException {
+    public void finalizarContrato(int numeroContrato) throws StorageBoxException {
 
-        Contrato contrato =
-                buscarContrato(numeroContrato);
+        Contrato contrato = buscarContrato(numeroContrato);
 
         if (contrato == null) {
 
-            throw new StorageBoxException(
-                    "El contrato no existe"
-            );
+            throw new StorageBoxException( "El contrato no existe");
         }
 
         contrato.finalizar();
     }
 
-    public void cancelarContrato(
-            int numeroContrato)
-            throws StorageBoxException {
+    public void cancelarContrato(int numeroContrato)throws StorageBoxException {
 
-        Contrato contrato =
-                buscarContrato(numeroContrato);
+        Contrato contrato = buscarContrato(numeroContrato);
 
         if (contrato == null) {
 
-            throw new StorageBoxException(
-                    "El contrato no existe"
-            );
+            throw new StorageBoxException( "El contrato no existe");
         }
         contrato.cancelar();
     }
@@ -186,8 +150,7 @@ public class ContratoControlador {
 
         for (Contrato contrato : modelo.getContratos()) {
 
-            if (contrato.getNumeroContrato()
-                    == numeroContrato) {
+            if (contrato.getNumeroContrato() == numeroContrato) {
 
                 return contrato;
             }
@@ -199,8 +162,7 @@ public class ContratoControlador {
     public List<Contrato> listarContratos() {
 
         return new ArrayList<>(
-                modelo.getContratos()
-        );
+                modelo.getContratos());
     }
     public List<Cliente> listarClientes() {
         
@@ -211,9 +173,7 @@ public class ContratoControlador {
 
         List<Espacio> disponibles = new ArrayList<>();
 
-        for (Espacio espacio :
-                modelo.getEspacios()
-                        .obtenerTodos()) {
+        for (Espacio espacio : modelo.getEspacios().obtenerTodos()) {
 
             if (!espacio.isOcupado()) {
 
@@ -227,48 +187,33 @@ public class ContratoControlador {
     public List<ServicioAdicional>
             listarServicios() {
 
-        return new ArrayList<>(
-                modelo.getServicios()
-        );
+        return new ArrayList<>(modelo.getServicios());
     }
 
-    public void agregarServicioContrato(
-            int numeroContrato,
-            String codigoServicio)
-            throws StorageBoxException {
+    public void agregarServicioContrato(int numeroContrato,String codigoServicio)throws StorageBoxException {
 
-        Contrato contrato =
-                buscarContrato(numeroContrato);
+        Contrato contrato =buscarContrato(numeroContrato);
 
         if (contrato == null) {
 
-            throw new StorageBoxException(
-                    "El contrato no existe"
-            );
+            throw new StorageBoxException("El contrato no existe");
         }
 
-        ServicioAdicional servicio =
-                buscarServicio(codigoServicio);
+        ServicioAdicional servicio =buscarServicio(codigoServicio);
 
         if (servicio == null) {
 
-            throw new StorageBoxException(
-                    "El servicio no existe."
-            );
+            throw new StorageBoxException("El servicio no existe");
         }
 
         contrato.agregarServicio(servicio);
     }
 
-    private Cliente buscarCliente(
-            String identificacion) {
+    private Cliente buscarCliente(String identificacion) {
 
-        for (Cliente cliente :
-                modelo.getClientes().aLista()) {
+        for (Cliente cliente : modelo.getClientes().aLista()) {
 
-            if (cliente.getIdentificacion()
-                    .equalsIgnoreCase(
-                            identificacion)) {
+            if (cliente.getIdentificacion().equalsIgnoreCase(identificacion)) {
 
                 return cliente;
             }
@@ -277,21 +222,16 @@ public class ContratoControlador {
         return null;
     }
 
-    private Espacio buscarEspacio(
-            String numero) {
+    private Espacio buscarEspacio(String numero) {
 
-        return modelo.getEspacios()
-                .buscar(numero);
+        return modelo.getEspacios().buscar(numero);
     }
 
-    private ServicioAdicional buscarServicio(
-            String codigo) {
+    private ServicioAdicional buscarServicio(String codigo) {
 
-        for (ServicioAdicional servicio :
-                modelo.getServicios()) {
+        for (ServicioAdicional servicio : modelo.getServicios()) {
 
-            if (servicio.getCodigo()
-                    .equalsIgnoreCase(codigo)) {
+            if (servicio.getCodigo().equalsIgnoreCase(codigo)) {
 
                 return servicio;
             }

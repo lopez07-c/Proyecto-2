@@ -21,81 +21,48 @@ public class ServicioControlador {
         this.modelo = modelo;
     }
 
-    public ServicioAdicional registrarServicio(
-            String nombre,
-            String descripcion,
-            double precio)
-            throws StorageBoxException {
+    public ServicioAdicional registrarServicio(String nombre,String descripcion,double precio) throws StorageBoxException {
 
         if (nombre == null || nombre.trim().isEmpty()) {
 
-            throw new StorageBoxException(
-                    "El nombre del servicio es requerido"
-            );
+            throw new StorageBoxException( "El nombre del servicio es requerido" );
         }
 
-        if (descripcion == null
-                || descripcion.trim().isEmpty()) {
+        if (descripcion == null|| descripcion.trim().isEmpty()) {
 
-            throw new StorageBoxException(
-                    "La descripción es requerida"
-            );
+            throw new StorageBoxException( "La descripción es requerida" );
         }
 
         if (precio <= 0) {
 
-            throw new StorageBoxException(
-                    "El precio debe ser mayor a 0"
-            );
+            throw new StorageBoxException("El precio debe ser mayor a 0" );
         }
 
-        ServicioAdicional servicio =
-                new ServicioAdicional(
-                        nombre.trim(),
-                        descripcion.trim(),
-                        precio
-                );
-
+        ServicioAdicional servicio = new ServicioAdicional(nombre.trim(), descripcion.trim(), precio);
         modelo.getServicios().add(servicio);
-
         return servicio;
+        
     }
 
-    public void modificarServicio(
-            String codigo,
-            String descripcion,
-            double precio)
-            throws StorageBoxException {
-
-        ServicioAdicional servicio =
-                buscarServicio(codigo);
+    public void modificarServicio(String codigo,String descripcion, double precio) throws StorageBoxException {
+        ServicioAdicional servicio = buscarServicio(codigo);
 
         if (servicio == null) {
 
-            throw new StorageBoxException(
-                    "El servicio no existe"
-            );
+            throw new StorageBoxException("El servicio no existe");
         }
 
-        if (descripcion == null
-                || descripcion.trim().isEmpty()) {
+        if (descripcion == null|| descripcion.trim().isEmpty()) {
 
-            throw new StorageBoxException(
-                    "La descripción es requerida"
-            );
+            throw new StorageBoxException("La descripción es requerida");
         }
 
         if (precio <= 0) {
 
-            throw new StorageBoxException(
-                    "El precio debe ser mayor a 0"
-            );
+            throw new StorageBoxException("El precio debe ser mayor a 0");
         }
 
-        servicio.setDescripcion(
-                descripcion.trim()
-        );
-
+        servicio.setDescripcion( descripcion.trim());
         servicio.setPrecio(precio);
     }
 
@@ -107,9 +74,7 @@ public class ServicioControlador {
 
         if (servicio == null) {
 
-            throw new StorageBoxException(
-                    "El servicio no existe"
-            );
+            throw new StorageBoxException( "El servicio no existe");
         }
 
         modelo.getServicios().remove(servicio);
@@ -117,17 +82,14 @@ public class ServicioControlador {
 
     public ServicioAdicional buscarServicio(
             String codigo) {
-
+        
         if (codigo == null) {
             return null;
         }
 
-        for (ServicioAdicional servicio :
-                modelo.getServicios()) {
-
-            if (servicio.getCodigo()
-                    .equalsIgnoreCase(
-                            codigo.trim())) {
+        for (ServicioAdicional servicio : modelo.getServicios()) {
+            
+            if (servicio.getCodigo().equalsIgnoreCase(codigo.trim())) {
 
                 return servicio;
             }

@@ -37,8 +37,8 @@ public class FrmContratos extends javax.swing.JFrame {
         configurarTabla();
         cargarClientes();
         cargarEspacios();
-       cargarTablaContratos();
-       setLocationRelativeTo(null);
+        cargarTablaContratos();
+        setLocationRelativeTo(null);
     }
     private void configurarTabla() {
 
@@ -61,14 +61,9 @@ public class FrmContratos extends javax.swing.JFrame {
     cbxCliente.removeAllItems();
 
     for (Cliente cliente : controlador.listarClientes()) {
-
-        cbxCliente.addItem(
-                cliente.getIdentificacion()
-                + " - "
-                + cliente.getNombreCompleto()
-        );
+        cbxCliente.addItem(cliente.getIdentificacion()+ " - "+ cliente.getNombreCompleto());
+        }
     }
-}
     private void cargarEspacios() {
 
     cbxEspacio.removeAllItems();
@@ -76,13 +71,9 @@ public class FrmContratos extends javax.swing.JFrame {
     for (Espacio espacio :
             controlador.listarEspaciosDisponibles()) {
 
-        cbxEspacio.addItem(
-                espacio.getNumeroEspacio()
-                + " - "
-                + espacio.getTipo()
-        );
-    }
-} 
+        cbxEspacio.addItem(espacio.getNumeroEspacio()+ " - "+ espacio.getTipo());
+        }
+    } 
     private void cargarTablaContratos() {
 
     modeloTabla.setRowCount(0);
@@ -100,8 +91,8 @@ public class FrmContratos extends javax.swing.JFrame {
         };
 
         modeloTabla.addRow(fila);
+        }
     }
-}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -301,23 +292,20 @@ public class FrmContratos extends javax.swing.JFrame {
 
     private void btnEncolaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEncolaActionPerformed
         String inicioTexto = txtFechaInicio.getText().trim();
-    String finalTexto = txtMeses.getText().trim();
+        String finalTexto = txtMeses.getText().trim();
 
     if (inicioTexto.isEmpty() || finalTexto.isEmpty()) {
-        JOptionPane.showMessageDialog(this,
-                "Debe completar las fechas.");
+        JOptionPane.showMessageDialog(this,"Debe completar las fechas.");
         return;
     }
 
     if (cbxCliente.getSelectedItem() == null) {
-        JOptionPane.showMessageDialog(this,
-                "Debe seleccionar un cliente.");
+        JOptionPane.showMessageDialog(this, "Debe seleccionar un cliente.");
         return;
     }
 
     if (cbxEspacio.getSelectedItem() == null) {
-        JOptionPane.showMessageDialog(this,
-                "Debe seleccionar un espacio.");
+        JOptionPane.showMessageDialog(this, "Debe seleccionar un espacio.");
         return;
     }
 
@@ -325,29 +313,12 @@ public class FrmContratos extends javax.swing.JFrame {
 
         LocalDate fechaInicio = LocalDate.parse(inicioTexto);
         LocalDate fechaFinal = LocalDate.parse(finalTexto);
+        String clienteSeleccionado = cbxCliente.getSelectedItem().toString();
+        String espacioSeleccionado = cbxEspacio.getSelectedItem().toString();
+        String cedula = clienteSeleccionado.substring(0,clienteSeleccionado.indexOf(" - "));
+        String numeroEspacio = espacioSeleccionado.substring(0, espacioSeleccionado.indexOf(" - "));
 
-        String clienteSeleccionado =
-                cbxCliente.getSelectedItem().toString();
-
-        String espacioSeleccionado =
-                cbxEspacio.getSelectedItem().toString();
-
-        String cedula = clienteSeleccionado.substring(
-                0,
-                clienteSeleccionado.indexOf(" - ")
-        );
-
-        String numeroEspacio = espacioSeleccionado.substring(
-                0,
-                espacioSeleccionado.indexOf(" - ")
-        );
-
-        Contrato contrato = controlador.solicitarContrato(
-                cedula,
-                numeroEspacio,
-                fechaInicio,
-                fechaFinal
-        );
+        Contrato contrato = controlador.solicitarContrato(cedula,numeroEspacio, fechaInicio, fechaFinal);
 
         Object[] fila = {
             contrato.getNumeroContrato(),
@@ -359,10 +330,7 @@ public class FrmContratos extends javax.swing.JFrame {
         };
 
         modeloTabla.addRow(fila);
-
-        JOptionPane.showMessageDialog(this,
-                "Contrato registrado correctamente.");
-
+        JOptionPane.showMessageDialog(this,"Contrato registrado correctamente.");
         limpiarCampos();
 
     } catch (StorageBoxException e) {

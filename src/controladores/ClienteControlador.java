@@ -21,64 +21,43 @@ public class ClienteControlador {
         this.modelo = modelo;
     }
 
-    public void registrarCliente(Cliente cliente)
-            throws StorageBoxException {
+    public void registrarCliente(Cliente cliente)throws StorageBoxException {
 
         if (cliente == null) {
-            throw new StorageBoxException(
-                    "Los datos del cliente no pueden estar vacíos"
-            );
+            throw new StorageBoxException("Los datos del cliente no pueden estar vacíos");
         }
 
-        if (cliente.getIdentificacion() == null
-                || cliente.getIdentificacion().trim().isEmpty()) {
+        if (cliente.getIdentificacion() == null|| cliente.getIdentificacion().trim().isEmpty()) {
 
-            throw new StorageBoxException(
-                    "La identificación es requerida"
-            );
+            throw new StorageBoxException("La identificación es requerida");
         }
 
         if (buscarCliente(cliente.getIdentificacion()) != null) {
-
-            throw new StorageBoxException(
-                    "Ya existe un cliente con esa identificación"
-            );
+            
+            throw new StorageBoxException("Ya existe un cliente con esa identificación");
         }
 
         modelo.getClientes().agregar(cliente);
     }
 
-    public void modificarCliente(
-            String identificacion,
-            String nombre,
-            String telefono,
-            String correo)
-            throws StorageBoxException {
+    public void modificarCliente(String identificacion,String nombre,String telefono,String correo)throws StorageBoxException {
 
         Cliente cliente = buscarCliente(identificacion);
 
         if (cliente == null) {
-            throw new StorageBoxException(
-                    "El cliente no existe"
-            );
+            throw new StorageBoxException("El cliente no existe");
         }
 
         if (nombre == null || nombre.trim().isEmpty()) {
-            throw new StorageBoxException(
-                    "El nombre es requerido"
-            );
+            throw new StorageBoxException("El nombre es requerido");
         }
 
         if (telefono == null || telefono.trim().isEmpty()) {
-            throw new StorageBoxException(
-                    "El teléfono es requerido."
-            );
+            throw new StorageBoxException("El teléfono es requerido");
         }
 
         if (correo == null || correo.trim().isEmpty()) {
-            throw new StorageBoxException(
-                    "El correo es requerido"
-            );
+            throw new StorageBoxException("El correo es requerido");
         }
 
         cliente.setNombreCompleto(nombre);
@@ -86,27 +65,21 @@ public class ClienteControlador {
         cliente.setCorreo(correo);
     }
 
-    public void eliminarCliente(String identificacion)
-            throws StorageBoxException {
+    public void eliminarCliente(String identificacion)throws StorageBoxException {
 
         Cliente cliente = buscarCliente(identificacion);
 
         if (cliente == null) {
-            throw new StorageBoxException(
-                    "El cliente no existe"
-            );
+            throw new StorageBoxException("El cliente no existe");
         }
 
         for (Contrato contrato : modelo.getContratos()) {
 
-            if (contrato.getCliente().getIdentificacion()
-                    .equalsIgnoreCase(identificacion)) {
+            if (contrato.getCliente().getIdentificacion().equalsIgnoreCase(identificacion)) {
 
                 if (contrato.getEstado() == EstadoContrato.PENDIENTE|| contrato.getEstado() == EstadoContrato.ACTIVO) {
 
-                    throw new StorageBoxException(
-                            "No se puede eliminar el cliente porque tiene un contrato pendiente o activo"
-                    );
+                    throw new StorageBoxException( "No se puede eliminar el cliente porque tiene un contrato pendiente o activo");
                 }
             }
         }
@@ -121,9 +94,8 @@ public class ClienteControlador {
         }
 
         for (Cliente cliente : modelo.getClientes().aLista()) {
-
-            if (cliente.getIdentificacion()
-                    .equalsIgnoreCase(identificacion.trim())) {
+            
+            if (cliente.getIdentificacion().equalsIgnoreCase(identificacion.trim())) {
 
                 return cliente;
             }

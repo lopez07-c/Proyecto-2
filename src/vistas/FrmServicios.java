@@ -93,7 +93,6 @@ public class FrmServicios extends javax.swing.JFrame {
 
         String texto = txtBuscar.getText().trim().toLowerCase();
         String filtro = cbxFiltro.getSelectedItem().toString();
-
         modeloTabla.setRowCount(0);
 
         for (ServicioAdicional servicio : controlador.listarServicios()) {
@@ -101,21 +100,18 @@ public class FrmServicios extends javax.swing.JFrame {
             boolean mostrar = false;
 
             if (texto.isEmpty() || filtro.equals("Todos")) {
+                
+                mostrar = true;
+
+            } else if (filtro.equals("Código") && servicio.getCodigo().toLowerCase().contains(texto)) {
 
                 mostrar = true;
 
-            } else if (filtro.equals("Código")
-                    && servicio.getCodigo().toLowerCase().contains(texto)) {
+            } else if (filtro.equals("Nombre")&& servicio.getNombre().toLowerCase().contains(texto)) {
 
                 mostrar = true;
 
-            } else if (filtro.equals("Nombre")
-                    && servicio.getNombre().toLowerCase().contains(texto)) {
-
-                mostrar = true;
-
-            } else if (filtro.equals("Descripción")
-                    && servicio.getDescripcion().toLowerCase().contains(texto)) {
+            } else if (filtro.equals("Descripción")&& servicio.getDescripcion().toLowerCase().contains(texto)) {
 
                 mostrar = true;
             }
@@ -419,12 +415,11 @@ public class FrmServicios extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         String nombre = txtNombre.getText().trim();
-    String descripcion = txtDescripcion.getText().trim();
-    String precioTexto = txtPrecio.getText().trim();
+        String descripcion = txtDescripcion.getText().trim();
+        String precioTexto = txtPrecio.getText().trim();
 
     if (nombre.isEmpty() || descripcion.isEmpty() || precioTexto.isEmpty()) {
-        JOptionPane.showMessageDialog(this,
-                "Complete todos los campos.");
+        JOptionPane.showMessageDialog(this,"Complete todos los campos.");
         return;
     }
 
@@ -433,32 +428,21 @@ public class FrmServicios extends javax.swing.JFrame {
         double precio = Double.parseDouble(precioTexto);
 
         if (precio <= 0) {
-            JOptionPane.showMessageDialog(this,
-                    "El precio debe ser mayor a 0.");
+            JOptionPane.showMessageDialog(this,"El precio debe ser mayor a 0.");
             return;
         }
 
-        ServicioAdicional servicio =
-                controlador.registrarServicio(nombre, descripcion, precio);
-
+        ServicioAdicional servicio =controlador.registrarServicio(nombre, descripcion, precio);
         txtCodigo.setText(servicio.getCodigo());
-
         cargarTablaServicios();
-
-        JOptionPane.showMessageDialog(this,
-                "Servicio registrado correctamente.");
-
+        JOptionPane.showMessageDialog(this,"Servicio registrado correctamente.");
         limpiarFormulario();
-
+        
     } catch (NumberFormatException e) {
-
-        JOptionPane.showMessageDialog(this,
-                "El precio debe ser numérico.");
-
+        JOptionPane.showMessageDialog(this,"El precio debe ser numérico.");
+        
     } catch (StorageBoxException e) {
-
-        JOptionPane.showMessageDialog(this,
-                e.getMessage());
+        JOptionPane.showMessageDialog(this,e.getMessage());
     }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
