@@ -53,7 +53,7 @@ public class FrmServicios extends javax.swing.JFrame {
             }
         };
 
-        pnlDatosServicio.setModel(modeloTabla);
+        tblServicios.setModel(modeloTabla);
     }
 
     private void cargarTablaServicios() {
@@ -78,14 +78,14 @@ public class FrmServicios extends javax.swing.JFrame {
         txtCodigo.setText("");
         txtNombre.setText("");
         txtDescripcion.setText("");
-        txtPrecio1.setText("");
+        txtPrecio.setText("");
         txtBuscar.setText("");
 
         if (cbxFiltro.getItemCount() > 0) {
             cbxFiltro.setSelectedIndex(0);
         }
 
-        pnlDatosServicio.clearSelection();
+        tblServicios.clearSelection();
         txtNombre.requestFocus();
     }
 
@@ -135,14 +135,14 @@ public class FrmServicios extends javax.swing.JFrame {
 
     private void cargarDatosSeleccionados() {
 
-        int fila = pnlDatosServicio.getSelectedRow();
+    int fila = tblServicios.getSelectedRow();
 
         if (fila != -1) {
             txtCodigo.setText(modeloTabla.getValueAt(fila, 0).toString());
-            txtNombre.setText(modeloTabla.getValueAt(fila, 1).toString());
+            txtNombre.setText( modeloTabla.getValueAt(fila, 1).toString());
             txtDescripcion.setText(modeloTabla.getValueAt(fila, 2).toString());
-            txtPrecio1.setText(modeloTabla.getValueAt(fila, 3).toString());
-        }
+            txtPrecio.setText(modeloTabla.getValueAt(fila, 3).toString());
+    }
     }
 
     /**
@@ -178,7 +178,7 @@ public class FrmServicios extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tblServicios = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         pnlDatosServicio.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos del Servicios", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
         pnlDatosServicio.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -420,7 +420,7 @@ public class FrmServicios extends javax.swing.JFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         String nombre = txtNombre.getText().trim();
     String descripcion = txtDescripcion.getText().trim();
-    String precioTexto = txtPrecio1.getText().trim();
+    String precioTexto = txtPrecio.getText().trim();
 
     if (nombre.isEmpty() || descripcion.isEmpty() || precioTexto.isEmpty()) {
         JOptionPane.showMessageDialog(this,
@@ -463,7 +463,7 @@ public class FrmServicios extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        int fila = pnlDatosServicio.getSelectedRow();
+        int fila = tblServicios.getSelectedRow();
 
     if (fila == -1) {
         JOptionPane.showMessageDialog(this,
@@ -473,7 +473,7 @@ public class FrmServicios extends javax.swing.JFrame {
 
     String codigo = txtCodigo.getText().trim();
     String descripcion = txtDescripcion.getText().trim();
-    String precioTexto = txtPrecio1.getText().trim();
+    String precioTexto = txtPrecio.getText().trim();
 
     if (descripcion.isEmpty() || precioTexto.isEmpty()) {
         JOptionPane.showMessageDialog(this,
@@ -513,7 +513,7 @@ public class FrmServicios extends javax.swing.JFrame {
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        int fila = pnlDatosServicio.getSelectedRow();
+        int fila = tblServicios.getSelectedRow();
 
     if (fila == -1) {
         JOptionPane.showMessageDialog(this,
@@ -584,7 +584,7 @@ public class FrmServicios extends javax.swing.JFrame {
     }//GEN-LAST:event_txtDescripcionMouseClicked
 
     private void tblServiciosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblServiciosMouseClicked
-        // TODO add your handling code here:
+        cargarDatosSeleccionados();
     }//GEN-LAST:event_tblServiciosMouseClicked
 
     /**
