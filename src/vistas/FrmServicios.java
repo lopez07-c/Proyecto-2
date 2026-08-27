@@ -53,7 +53,7 @@ public class FrmServicios extends javax.swing.JFrame {
             }
         };
 
-        tblServicios.setModel(modeloTabla);
+        pnlDatosServicio.setModel(modeloTabla);
     }
 
     private void cargarTablaServicios() {
@@ -78,20 +78,20 @@ public class FrmServicios extends javax.swing.JFrame {
         txtCodigo.setText("");
         txtNombre.setText("");
         txtDescripcion.setText("");
-        txtPrecio.setText("");
-        adsid.setText("");
+        txtPrecio1.setText("");
+        txtBuscar.setText("");
 
         if (cbxFiltro.getItemCount() > 0) {
             cbxFiltro.setSelectedIndex(0);
         }
 
-        tblServicios.clearSelection();
+        pnlDatosServicio.clearSelection();
         txtNombre.requestFocus();
     }
 
     private void buscarYFiltrar() {
 
-        String texto = adsid.getText().trim().toLowerCase();
+        String texto = txtBuscar.getText().trim().toLowerCase();
         String filtro = cbxFiltro.getSelectedItem().toString();
 
         modeloTabla.setRowCount(0);
@@ -135,13 +135,13 @@ public class FrmServicios extends javax.swing.JFrame {
 
     private void cargarDatosSeleccionados() {
 
-        int fila = tblServicios.getSelectedRow();
+        int fila = pnlDatosServicio.getSelectedRow();
 
         if (fila != -1) {
             txtCodigo.setText(modeloTabla.getValueAt(fila, 0).toString());
             txtNombre.setText(modeloTabla.getValueAt(fila, 1).toString());
             txtDescripcion.setText(modeloTabla.getValueAt(fila, 2).toString());
-            txtPrecio.setText(modeloTabla.getValueAt(fila, 3).toString());
+            txtPrecio1.setText(modeloTabla.getValueAt(fila, 3).toString());
         }
     }
 
@@ -154,7 +154,7 @@ public class FrmServicios extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        tblServicios = new javax.swing.JPanel();
+        pnlDatosServicio = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtCodigo = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -162,26 +162,28 @@ public class FrmServicios extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         txtDescripcion = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
-        txtPrecio = new javax.swing.JLabel();
-        txtPrecios = new javax.swing.JTextField();
+        txtPrecio1 = new javax.swing.JLabel();
+        txtPrecio = new javax.swing.JTextField();
         btnNuevo = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        adsid = new javax.swing.JLabel();
+        lblBuscar = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
         cbxFiltro = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblServicios = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        tblServicios.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos del Servicio", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
-        tblServicios.addMouseListener(new java.awt.event.MouseAdapter() {
+        pnlDatosServicio.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos del Servicios", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
+        pnlDatosServicio.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblServiciosMouseClicked(evt);
+                pnlDatosServicioMouseClicked(evt);
             }
         });
 
@@ -207,58 +209,58 @@ public class FrmServicios extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel3.setText("Descripcion:");
 
-        txtPrecio.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        txtPrecio.setText("Precio:");
+        txtPrecio1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        txtPrecio1.setText("Precio:");
 
-        txtPrecios.addActionListener(this::txtPreciosActionPerformed);
+        txtPrecio.addActionListener(this::txtPrecioActionPerformed);
 
-        javax.swing.GroupLayout tblServiciosLayout = new javax.swing.GroupLayout(tblServicios);
-        tblServicios.setLayout(tblServiciosLayout);
-        tblServiciosLayout.setHorizontalGroup(
-            tblServiciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(tblServiciosLayout.createSequentialGroup()
+        javax.swing.GroupLayout pnlDatosServicioLayout = new javax.swing.GroupLayout(pnlDatosServicio);
+        pnlDatosServicio.setLayout(pnlDatosServicioLayout);
+        pnlDatosServicioLayout.setHorizontalGroup(
+            pnlDatosServicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlDatosServicioLayout.createSequentialGroup()
                 .addGap(40, 40, 40)
-                .addGroup(tblServiciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tblServiciosLayout.createSequentialGroup()
+                .addGroup(pnlDatosServicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDatosServicioLayout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(30, 30, 30))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tblServiciosLayout.createSequentialGroup()
-                        .addGroup(tblServiciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDatosServicioLayout.createSequentialGroup()
+                        .addGroup(pnlDatosServicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
                             .addComponent(jLabel2)
-                            .addComponent(txtPrecio))
+                            .addComponent(txtPrecio1))
                         .addGap(4, 4, 4)))
-                .addGroup(tblServiciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(tblServiciosLayout.createSequentialGroup()
-                        .addGroup(tblServiciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(pnlDatosServicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(pnlDatosServicioLayout.createSequentialGroup()
+                        .addGroup(pnlDatosServicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
                             .addComponent(txtNombre))
                         .addGap(37, 37, 37))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, tblServiciosLayout.createSequentialGroup()
-                        .addGroup(tblServiciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlDatosServicioLayout.createSequentialGroup()
+                        .addGroup(pnlDatosServicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(txtCodigo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtPrecios, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtPrecio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(135, 135, 135))))
         );
-        tblServiciosLayout.setVerticalGroup(
-            tblServiciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(tblServiciosLayout.createSequentialGroup()
+        pnlDatosServicioLayout.setVerticalGroup(
+            pnlDatosServicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlDatosServicioLayout.createSequentialGroup()
                 .addGap(27, 27, 27)
-                .addGroup(tblServiciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnlDatosServicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(tblServiciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnlDatosServicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                .addGroup(tblServiciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlDatosServicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23)
-                .addGroup(tblServiciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtPrecio)
-                    .addComponent(txtPrecios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnlDatosServicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtPrecio1)
+                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(34, 34, 34))
         );
 
@@ -284,8 +286,8 @@ public class FrmServicios extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Buscar/Filtros", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
-        adsid.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        adsid.setText("Buscar:");
+        lblBuscar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblBuscar.setText("Buscar:");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel4.setText("Filtrar Por:");
@@ -304,19 +306,19 @@ public class FrmServicios extends javax.swing.JFrame {
                 .addGap(35, 35, 35)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
-                    .addComponent(adsid, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbxFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(120, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(adsid)
+                    .addComponent(lblBuscar)
                     .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -327,15 +329,39 @@ public class FrmServicios extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Servicio Registrados", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
+        tblServicios.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Codigo", "Nombre", "Precio"
+            }
+        ));
+        tblServicios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblServiciosMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblServicios);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -357,7 +383,7 @@ public class FrmServicios extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(tblServicios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pnlDatosServicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -369,7 +395,7 @@ public class FrmServicios extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(48, 48, 48)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(tblServicios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pnlDatosServicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -388,13 +414,13 @@ public class FrmServicios extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        limpiarFormulario()
+        limpiarFormulario();
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         String nombre = txtNombre.getText().trim();
     String descripcion = txtDescripcion.getText().trim();
-    String precioTexto = txtPrecio.getText().trim();
+    String precioTexto = txtPrecio1.getText().trim();
 
     if (nombre.isEmpty() || descripcion.isEmpty() || precioTexto.isEmpty()) {
         JOptionPane.showMessageDialog(this,
@@ -437,7 +463,7 @@ public class FrmServicios extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        int fila = tblServicios.getSelectedRow();
+        int fila = pnlDatosServicio.getSelectedRow();
 
     if (fila == -1) {
         JOptionPane.showMessageDialog(this,
@@ -447,7 +473,7 @@ public class FrmServicios extends javax.swing.JFrame {
 
     String codigo = txtCodigo.getText().trim();
     String descripcion = txtDescripcion.getText().trim();
-    String precioTexto = txtPrecio.getText().trim();
+    String precioTexto = txtPrecio1.getText().trim();
 
     if (descripcion.isEmpty() || precioTexto.isEmpty()) {
         JOptionPane.showMessageDialog(this,
@@ -487,7 +513,7 @@ public class FrmServicios extends javax.swing.JFrame {
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        int fila = tblServicios.getSelectedRow();
+        int fila = pnlDatosServicio.getSelectedRow();
 
     if (fila == -1) {
         JOptionPane.showMessageDialog(this,
@@ -529,9 +555,9 @@ public class FrmServicios extends javax.swing.JFrame {
         cargarTablaServicios();
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
-    private void tblServiciosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblServiciosMouseClicked
+    private void pnlDatosServicioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlDatosServicioMouseClicked
         cargarDatosSeleccionados();
-    }//GEN-LAST:event_tblServiciosMouseClicked
+    }//GEN-LAST:event_pnlDatosServicioMouseClicked
 
     private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
         buscarYFiltrar();
@@ -549,13 +575,17 @@ public class FrmServicios extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCodigoActionPerformed
 
-    private void txtPreciosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPreciosActionPerformed
+    private void txtPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecioActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtPreciosActionPerformed
+    }//GEN-LAST:event_txtPrecioActionPerformed
 
     private void txtDescripcionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtDescripcionMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDescripcionMouseClicked
+
+    private void tblServiciosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblServiciosMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblServiciosMouseClicked
 
     /**
      * @param args the command line arguments
@@ -583,7 +613,6 @@ public class FrmServicios extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel adsid;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiar;
@@ -597,12 +626,15 @@ public class FrmServicios extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JPanel tblServicios;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblBuscar;
+    private javax.swing.JPanel pnlDatosServicio;
+    private javax.swing.JTable tblServicios;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextArea txtDescripcion;
     private javax.swing.JTextField txtNombre;
-    private javax.swing.JLabel txtPrecio;
-    private javax.swing.JTextField txtPrecios;
+    private javax.swing.JTextField txtPrecio;
+    private javax.swing.JLabel txtPrecio1;
     // End of variables declaration//GEN-END:variables
 }

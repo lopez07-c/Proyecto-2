@@ -4,7 +4,7 @@
  */
 package vistas;
 
-import controladores.StorageBoxControlador;
+import controladores.ContratoControlador;
 import exepciones.StorageBoxException;
 import java.time.LocalDate;
 import modelo.Cliente;
@@ -19,7 +19,7 @@ import javax.swing.table.DefaultTableModel;
 public class FrmContratos extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmContratos.class.getName());
-    private StorageBoxControlador controlador;
+    private ContratoControlador controlador;
     private DefaultTableModel modeloTabla;
     /**
      * Creates new form FrmContratos
@@ -30,13 +30,15 @@ public class FrmContratos extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }
 
-    public FrmContratos(StorageBoxControlador controlador) {
+    public FrmContratos(ContratoControlador controlador) {
+        
         initComponents();
         this.controlador = controlador;
         configurarTabla();
         cargarClientes();
         cargarEspacios();
-        setLocationRelativeTo(null);
+       cargarTablaContratos();
+       setLocationRelativeTo(null);
     }
     private void configurarTabla() {
 
@@ -53,11 +55,12 @@ public class FrmContratos extends javax.swing.JFrame {
 
     tblContratos.setModel(modeloTabla);
     }
+    
     private void cargarClientes() {
 
     cbxCliente.removeAllItems();
 
-    for (Cliente cliente : controlador.getClientes().aLista()) {
+    for (Cliente cliente : controlador.listarClientes()) {
 
         cbxCliente.addItem(
                 cliente.getIdentificacion()
@@ -70,19 +73,35 @@ public class FrmContratos extends javax.swing.JFrame {
 
     cbxEspacio.removeAllItems();
 
-    for (Espacio espacio : controlador.getEspacios().obtenerTodos()) {
+    for (Espacio espacio :
+            controlador.listarEspaciosDisponibles()) {
 
-        if (!espacio.isOcupado()) {
-
-            cbxEspacio.addItem(
-                    espacio.getNumeroEspacio()
-                    + " - "
-                    + espacio.getTipo()
-            );
-        }
+        cbxEspacio.addItem(
+                espacio.getNumeroEspacio()
+                + " - "
+                + espacio.getTipo()
+        );
     }
-}   
-    
+} 
+    private void cargarTablaContratos() {
+
+    modeloTabla.setRowCount(0);
+
+    for (Contrato contrato :
+            controlador.listarContratos()) {
+
+        Object[] fila = {
+            contrato.getNumeroContrato(),
+            contrato.getCliente().getNombreCompleto(),
+            contrato.getEspacio().getNumeroEspacio(),
+            contrato.getFechaInicio(),
+            contrato.getFechaFinal(),
+            contrato.getEstado()
+        };
+
+        modeloTabla.addRow(fila);
+    }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -371,48 +390,24 @@ public class FrmContratos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnProcesarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcesarActionPerformed
-        Contrato contrato =
-            controlador.getContratosPendientes().verPrimero();
+        try {
 
-    if (contrato == null) {
-        JOptionPane.showMessageDialog(this,
-                "No hay contratos pendientes.");
-        return;
-    }
+        controlador.activarSiguienteContrato();
 
-    try {
-
-        contrato.activar();
-
-        controlador.getContratosPendientes().procesarSiguiente();
-
-        for (int i = 0; i < modeloTabla.getRowCount(); i++) {
-
-            int numero = Integer.parseInt(
-                    modeloTabla.getValueAt(i, 0).toString()
-            );
-
-            if (numero == contrato.getNumeroContrato()) {
-
-                modeloTabla.setValueAt(
-                        contrato.getEstado(),
-                        i,
-                        5
-                );
-
-                break;
-            }
-        }
-
-        JOptionPane.showMessageDialog(this,
-                "Contrato activado correctamente.");
-
+        cargarTablaContratos();
         cargarEspacios();
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Contrato activado correctamente."
+        );
 
     } catch (StorageBoxException e) {
 
-        JOptionPane.showMessageDialog(this,
-                e.getMessage());
+        JOptionPane.showMessageDialog(
+                this,
+                e.getMessage()
+        );
     }
     }//GEN-LAST:event_btnProcesarActionPerformed
 

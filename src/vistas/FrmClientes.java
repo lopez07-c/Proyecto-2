@@ -4,7 +4,7 @@
  */
 package vistas;
 
-import controladores.StorageBoxControlador;
+import controladores.ClienteControlador;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Cliente;
@@ -18,7 +18,7 @@ import java.time.LocalDate;
  */
 public class FrmClientes extends javax.swing.JFrame {
 
-    private StorageBoxControlador controlador;
+    private ClienteControlador controlador;
     private DefaultTableModel modeloTabla;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmClientes.class.getName());
 
@@ -28,7 +28,7 @@ public class FrmClientes extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }
 
-    public FrmClientes(StorageBoxControlador controlador) {
+    public FrmClientes(ClienteControlador controlador) {
         initComponents();
         this.controlador = controlador;
         configurarTabla();
@@ -62,7 +62,7 @@ public class FrmClientes extends javax.swing.JFrame {
 
     modeloTabla.setRowCount(0);
 
-    for (Cliente cliente : controlador.getClientes().aLista()) {
+    for (Cliente cliente : controlador.listarClientes()) {
 
         Object[] fila = {
             cliente.getIdentificacion(),

@@ -4,7 +4,7 @@
  */
 package vistas;
 
-import controladores.StorageBoxControlador;
+import controladores.EspacioControlador;
 import java.awt.Color;
 import java.awt.GridLayout;
 import javax.swing.JButton;
@@ -21,21 +21,22 @@ public class FrmEspacios extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmEspacios.class.getName());
     private DefaultTableModel modeloTabla;
-    private StorageBoxControlador controlador;
+    private EspacioControlador controlador;
     
-    public FrmEspacios() {
-    this(new StorageBoxControlador());
-}
+    public FrmEspacios(EspacioControlador controlador) {
 
-    public FrmEspacios(StorageBoxControlador controlador) {
         initComponents();
-
         this.controlador = controlador;
-
         configurarTabla();
         cargarTablaEspacios();
         generarMapa();
+        setLocationRelativeTo(null);
+    }
 
+    public FrmEspacios() {
+        initComponents();
+        configurarTabla();
+        generarMapa();
         setLocationRelativeTo(null);
     }
     private void configurarTabla() {
@@ -62,7 +63,7 @@ public class FrmEspacios extends javax.swing.JFrame {
 
     modeloTabla.setRowCount(0);
 
-    for (Espacio espacio : controlador.getEspacios().obtenerTodos()) {
+    for (Espacio espacio : controlador.listarEspacios()) {
 
         String estado;
 
@@ -538,16 +539,7 @@ public class FrmEspacios extends javax.swing.JFrame {
             tipo = TipoEspacio.GRANDE;
         }
 
-        controlador.registrarEspacio(
-                numero,
-                tipo
-        );
-
-        Espacio espacio =
-                controlador.buscarEspacio(numero);
-
-        espacio.setTamanioM2(tamanio);
-        espacio.setPrecioMensual(precio);
+        controlador.registrarEspacio(numero, tipo, tamanio, precio);
 
         cargarTablaEspacios();
         generarMapa();
@@ -804,8 +796,7 @@ public class FrmEspacios extends javax.swing.JFrame {
 
     modeloTabla.setRowCount(0);
 
-    for (Espacio espacio :
-            controlador.getEspacios().obtenerTodos()) {
+    for (Espacio espacio : controlador.filtrarEspacios(filtro)) {
 
         String estado;
 
