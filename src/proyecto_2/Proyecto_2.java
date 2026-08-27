@@ -4,7 +4,13 @@
  */
 package proyecto_2;
 
-import controladores.StorageBoxControlador;
+import controladores.ClienteControlador;
+import controladores.ContratoControlador;
+import controladores.EmpleadoControlador;
+import controladores.EspacioControlador;
+import controladores.PrincipalControlador;
+import controladores.ServicioControlador;
+import modelo.StorageBoxModelo;
 import vistas.FrmPrincipal;
 
 /**
@@ -17,8 +23,28 @@ public class Proyecto_2 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        StorageBoxControlador controlador = new StorageBoxControlador();
-        FrmPrincipal principal = new FrmPrincipal(controlador);
+        StorageBoxModelo modelo = new StorageBoxModelo();
+
+        ClienteControlador clienteControlador = new ClienteControlador(modelo);
+
+        EspacioControlador espacioControlador = new EspacioControlador(modelo);
+
+        ContratoControlador contratoControlador = new ContratoControlador(modelo);
+
+        ServicioControlador servicioControlador = new ServicioControlador(modelo);
+
+        EmpleadoControlador empleadoControlador = new EmpleadoControlador(modelo);
+
+        PrincipalControlador principalControlador = new PrincipalControlador(
+                        clienteControlador,
+                        espacioControlador,
+                        contratoControlador,
+                        servicioControlador,
+                        empleadoControlador
+                );
+
+        FrmPrincipal principal = new FrmPrincipal(principalControlador);
+
         principal.setVisible(true);
     }
     
