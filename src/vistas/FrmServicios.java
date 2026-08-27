@@ -4,6 +4,12 @@
  */
 package vistas;
 
+import controladores.ServicioControlador;
+import exepciones.StorageBoxException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import modelo.ServicioAdicional;
+
 /**
  *
  * @author matam
@@ -11,12 +17,132 @@ package vistas;
 public class FrmServicios extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmServicios.class.getName());
+    private ServicioControlador controlador;
+    private DefaultTableModel modeloTabla;
 
-    /**
-     * Creates new form FrmServicios
-     */
     public FrmServicios() {
         initComponents();
+    }
+
+    public FrmServicios(ServicioControlador controlador) {
+        initComponents();
+        this.controlador = controlador;
+
+        configurarTabla();
+        cargarTablaServicios();
+        limpiarFormulario();
+
+        txtCodigo.setEditable(false);
+
+        setLocationRelativeTo(null);
+    }
+
+    private void configurarTabla() {
+
+        String[] columnas = {
+            "Código",
+            "Nombre",
+            "Descripción",
+            "Precio"
+        };
+
+        modeloTabla = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        tblServicios.setModel(modeloTabla);
+    }
+
+    private void cargarTablaServicios() {
+
+        modeloTabla.setRowCount(0);
+
+        for (ServicioAdicional servicio : controlador.listarServicios()) {
+
+            Object[] fila = {
+                servicio.getCodigo(),
+                servicio.getNombre(),
+                servicio.getDescripcion(),
+                servicio.getPrecio()
+            };
+
+            modeloTabla.addRow(fila);
+        }
+    }
+
+    private void limpiarFormulario() {
+
+        txtCodigo.setText("");
+        txtNombre.setText("");
+        txtDescripcion.setText("");
+        txtPrecio.setText("");
+        adsid.setText("");
+
+        if (cbxFiltro.getItemCount() > 0) {
+            cbxFiltro.setSelectedIndex(0);
+        }
+
+        tblServicios.clearSelection();
+        txtNombre.requestFocus();
+    }
+
+    private void buscarYFiltrar() {
+
+        String texto = adsid.getText().trim().toLowerCase();
+        String filtro = cbxFiltro.getSelectedItem().toString();
+
+        modeloTabla.setRowCount(0);
+
+        for (ServicioAdicional servicio : controlador.listarServicios()) {
+
+            boolean mostrar = false;
+
+            if (texto.isEmpty() || filtro.equals("Todos")) {
+
+                mostrar = true;
+
+            } else if (filtro.equals("Código")
+                    && servicio.getCodigo().toLowerCase().contains(texto)) {
+
+                mostrar = true;
+
+            } else if (filtro.equals("Nombre")
+                    && servicio.getNombre().toLowerCase().contains(texto)) {
+
+                mostrar = true;
+
+            } else if (filtro.equals("Descripción")
+                    && servicio.getDescripcion().toLowerCase().contains(texto)) {
+
+                mostrar = true;
+            }
+
+            if (mostrar) {
+                Object[] fila = {
+                    servicio.getCodigo(),
+                    servicio.getNombre(),
+                    servicio.getDescripcion(),
+                    servicio.getPrecio()
+                };
+
+                modeloTabla.addRow(fila);
+            }
+        }
+    }
+
+    private void cargarDatosSeleccionados() {
+
+        int fila = tblServicios.getSelectedRow();
+
+        if (fila != -1) {
+            txtCodigo.setText(modeloTabla.getValueAt(fila, 0).toString());
+            txtNombre.setText(modeloTabla.getValueAt(fila, 1).toString());
+            txtDescripcion.setText(modeloTabla.getValueAt(fila, 2).toString());
+            txtPrecio.setText(modeloTabla.getValueAt(fila, 3).toString());
+        }
     }
 
     /**
@@ -28,21 +154,188 @@ public class FrmServicios extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        tblServicios = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        txtCodigo = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        txtNombre = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtDescripcion = new javax.swing.JTextArea();
+        jLabel3 = new javax.swing.JLabel();
+        txtPrecio = new javax.swing.JLabel();
+        txtPrecios = new javax.swing.JTextField();
+        btnNuevo = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
+        btnModificar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
+        adsid = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        txtBuscar = new javax.swing.JTextField();
+        cbxFiltro = new javax.swing.JComboBox<>();
+        jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos del Servicio", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
+        tblServicios.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos del Servicio", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
+        tblServicios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblServiciosMouseClicked(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel1.setText("Codigo:");
+
+        txtCodigo.addActionListener(this::txtCodigoActionPerformed);
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel2.setText("Nombre:");
+
+        txtNombre.addActionListener(this::txtNombreActionPerformed);
+
+        txtDescripcion.setColumns(20);
+        txtDescripcion.setRows(5);
+        txtDescripcion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtDescripcionMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(txtDescripcion);
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel3.setText("Descripcion:");
+
+        txtPrecio.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        txtPrecio.setText("Precio:");
+
+        txtPrecios.addActionListener(this::txtPreciosActionPerformed);
+
+        javax.swing.GroupLayout tblServiciosLayout = new javax.swing.GroupLayout(tblServicios);
+        tblServicios.setLayout(tblServiciosLayout);
+        tblServiciosLayout.setHorizontalGroup(
+            tblServiciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tblServiciosLayout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addGroup(tblServiciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tblServiciosLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(30, 30, 30))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tblServiciosLayout.createSequentialGroup()
+                        .addGroup(tblServiciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2)
+                            .addComponent(txtPrecio))
+                        .addGap(4, 4, 4)))
+                .addGroup(tblServiciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(tblServiciosLayout.createSequentialGroup()
+                        .addGroup(tblServiciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
+                            .addComponent(txtNombre))
+                        .addGap(37, 37, 37))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, tblServiciosLayout.createSequentialGroup()
+                        .addGroup(tblServiciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtCodigo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPrecios, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(135, 135, 135))))
+        );
+        tblServiciosLayout.setVerticalGroup(
+            tblServiciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tblServiciosLayout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addGroup(tblServiciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(tblServiciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addGroup(tblServiciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23)
+                .addGroup(tblServiciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtPrecio)
+                    .addComponent(txtPrecios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(34, 34, 34))
+        );
+
+        btnNuevo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnNuevo.setText("Nuevo");
+        btnNuevo.addActionListener(this::btnNuevoActionPerformed);
+
+        btnGuardar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(this::btnGuardarActionPerformed);
+
+        btnModificar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnModificar.setText("Modificar");
+        btnModificar.addActionListener(this::btnModificarActionPerformed);
+
+        btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(this::btnEliminarActionPerformed);
+
+        btnLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Buscar/Filtros", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
+
+        adsid.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        adsid.setText("Buscar:");
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel4.setText("Filtrar Por:");
+
+        txtBuscar.addActionListener(this::txtBuscarActionPerformed);
+
+        cbxFiltro.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        cbxFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Código", "Nombre", "Descripción" }));
+        cbxFiltro.addActionListener(this::cbxFiltroActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 389, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addComponent(adsid, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbxFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(120, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 187, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(adsid)
+                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addComponent(cbxFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(47, Short.MAX_VALUE))
+        );
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Servicio Registrados", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -51,19 +344,218 @@ public class FrmServicios extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(61, 61, 61)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(306, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(tblServicios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(19, 19, 19))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(48, 48, 48)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(212, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(tblServicios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(36, 36, 36))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        limpiarFormulario()
+    }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        String nombre = txtNombre.getText().trim();
+    String descripcion = txtDescripcion.getText().trim();
+    String precioTexto = txtPrecio.getText().trim();
+
+    if (nombre.isEmpty() || descripcion.isEmpty() || precioTexto.isEmpty()) {
+        JOptionPane.showMessageDialog(this,
+                "Complete todos los campos.");
+        return;
+    }
+
+    try {
+
+        double precio = Double.parseDouble(precioTexto);
+
+        if (precio <= 0) {
+            JOptionPane.showMessageDialog(this,
+                    "El precio debe ser mayor a 0.");
+            return;
+        }
+
+        ServicioAdicional servicio =
+                controlador.registrarServicio(nombre, descripcion, precio);
+
+        txtCodigo.setText(servicio.getCodigo());
+
+        cargarTablaServicios();
+
+        JOptionPane.showMessageDialog(this,
+                "Servicio registrado correctamente.");
+
+        limpiarFormulario();
+
+    } catch (NumberFormatException e) {
+
+        JOptionPane.showMessageDialog(this,
+                "El precio debe ser numérico.");
+
+    } catch (StorageBoxException e) {
+
+        JOptionPane.showMessageDialog(this,
+                e.getMessage());
+    }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        int fila = tblServicios.getSelectedRow();
+
+    if (fila == -1) {
+        JOptionPane.showMessageDialog(this,
+                "Seleccione un servicio para modificar.");
+        return;
+    }
+
+    String codigo = txtCodigo.getText().trim();
+    String descripcion = txtDescripcion.getText().trim();
+    String precioTexto = txtPrecio.getText().trim();
+
+    if (descripcion.isEmpty() || precioTexto.isEmpty()) {
+        JOptionPane.showMessageDialog(this,
+                "Complete los campos requeridos.");
+        return;
+    }
+
+    try {
+
+        double precio = Double.parseDouble(precioTexto);
+
+        if (precio <= 0) {
+            JOptionPane.showMessageDialog(this,
+                    "El precio debe ser mayor a 0.");
+            return;
+        }
+
+        controlador.modificarServicio(codigo, descripcion, precio);
+
+        cargarTablaServicios();
+
+        JOptionPane.showMessageDialog(this,
+                "Servicio modificado correctamente.");
+
+        limpiarFormulario();
+
+    } catch (NumberFormatException e) {
+
+        JOptionPane.showMessageDialog(this,
+                "El precio debe ser numérico.");
+
+    } catch (StorageBoxException e) {
+
+        JOptionPane.showMessageDialog(this,
+                e.getMessage());
+    }
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        int fila = tblServicios.getSelectedRow();
+
+    if (fila == -1) {
+        JOptionPane.showMessageDialog(this,
+                "Seleccione un servicio para eliminar.");
+        return;
+    }
+
+    String codigo = txtCodigo.getText().trim();
+
+    int confirmar = JOptionPane.showConfirmDialog(
+            this,
+            "¿Está seguro de eliminar este servicio?",
+            "Confirmar",
+            JOptionPane.YES_NO_OPTION
+    );
+
+    if (confirmar == JOptionPane.YES_OPTION) {
+        try {
+
+            controlador.eliminarServicio(codigo);
+
+            cargarTablaServicios();
+
+            JOptionPane.showMessageDialog(this,
+                    "Servicio eliminado correctamente.");
+
+            limpiarFormulario();
+
+        } catch (StorageBoxException e) {
+
+            JOptionPane.showMessageDialog(this,
+                    e.getMessage());
+        }
+    }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        limpiarFormulario();
+        cargarTablaServicios();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void tblServiciosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblServiciosMouseClicked
+        cargarDatosSeleccionados();
+    }//GEN-LAST:event_tblServiciosMouseClicked
+
+    private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
+        buscarYFiltrar();
+    }//GEN-LAST:event_txtBuscarActionPerformed
+
+    private void cbxFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxFiltroActionPerformed
+        buscarYFiltrar();
+    }//GEN-LAST:event_cbxFiltroActionPerformed
+
+    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombreActionPerformed
+
+    private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodigoActionPerformed
+
+    private void txtPreciosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPreciosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPreciosActionPerformed
+
+    private void txtDescripcionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtDescripcionMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDescripcionMouseClicked
 
     /**
      * @param args the command line arguments
@@ -91,6 +583,26 @@ public class FrmServicios extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel adsid;
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnLimpiar;
+    private javax.swing.JButton btnModificar;
+    private javax.swing.JButton btnNuevo;
+    private javax.swing.JComboBox<String> cbxFiltro;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel tblServicios;
+    private javax.swing.JTextField txtBuscar;
+    private javax.swing.JTextField txtCodigo;
+    private javax.swing.JTextArea txtDescripcion;
+    private javax.swing.JTextField txtNombre;
+    private javax.swing.JLabel txtPrecio;
+    private javax.swing.JTextField txtPrecios;
     // End of variables declaration//GEN-END:variables
 }
