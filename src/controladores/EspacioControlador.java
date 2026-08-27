@@ -31,43 +31,39 @@ public class EspacioControlador {
         if (numero == null || numero.trim().isEmpty()) {
 
             throw new StorageBoxException(
-                    "El número de espacio es requerido."
+                    "El número de espacio es requerido"
             );
         }
 
         if (tipo == null) {
 
             throw new StorageBoxException(
-                    "Debe seleccionar un tipo de espacio."
+                    "Debe seleccionar un tipo de espacio"
             );
         }
 
         if (tamanio <= 0) {
 
             throw new StorageBoxException(
-                    "El tamaño debe ser mayor a 0."
+                    "El tamaño debe ser mayor a 0"
             );
         }
 
         if (precio <= 0) {
 
             throw new StorageBoxException(
-                    "El precio debe ser mayor a 0."
+                    "El precio debe ser mayor a 0"
             );
         }
 
         if (modelo.getEspacios().existe(numero.trim())) {
 
             throw new StorageBoxException(
-                    "El espacio número "
-                    + numero
-                    + " ya está registrado."
+                    "El espacio número "  + numero + " ya está registrado"
             );
         }
 
-        Espacio espacio =
-                new Espacio(numero.trim(), tipo);
-
+        Espacio espacio = new Espacio(numero.trim(), tipo);
         espacio.setTamanioM2(tamanio);
         espacio.setPrecioMensual(precio);
 
@@ -127,14 +123,14 @@ public class EspacioControlador {
         if (espacio == null) {
 
             throw new StorageBoxException(
-                    "El espacio no existe."
+                    "El espacio no existe"
             );
         }
 
         if (espacio.isOcupado()) {
 
             throw new StorageBoxException(
-                    "No se puede eliminar un espacio ocupado."
+                    "No se puede eliminar un espacio ocupado"
             );
         }
 
@@ -168,36 +164,27 @@ public class EspacioControlador {
 
             boolean mostrar = false;
 
-            if (filtro == null
-                    || filtro.equals("Todos")) {
+            if (filtro == null || filtro.equals("Todos")) {
 
                 mostrar = true;
 
-            } else if (filtro.equals("Pequeño")
-                    && espacio.getTipo()
-                    == TipoEspacio.PEQUENO) {
+            } else if (filtro.equals("Pequeño") && espacio.getTipo() == TipoEspacio.PEQUENO) {
 
                 mostrar = true;
 
-            } else if (filtro.equals("Mediano")
-                    && espacio.getTipo()
-                    == TipoEspacio.MEDIANO) {
+            } else if (filtro.equals("Mediano")&& espacio.getTipo() == TipoEspacio.MEDIANO) {
 
                 mostrar = true;
 
-            } else if (filtro.equals("Grande")
-                    && espacio.getTipo()
-                    == TipoEspacio.GRANDE) {
+            } else if (filtro.equals("Grande") && espacio.getTipo()== TipoEspacio.GRANDE) {
 
                 mostrar = true;
 
-            } else if (filtro.equals("Disponible")
-                    && !espacio.isOcupado()) {
+            } else if (filtro.equals("Disponible") && !espacio.isOcupado()) {
 
                 mostrar = true;
 
-            } else if (filtro.equals("Ocupado")
-                    && espacio.isOcupado()) {
+            } else if (filtro.equals("Ocupado") && espacio.isOcupado()) {
 
                 mostrar = true;
             }
